@@ -9,6 +9,7 @@ var interval;
 document.addEventListener('DOMContentLoaded', function () {
     startButton = document.getElementById('start');
     setupMediaRecorder();
+    typePreviewText();
 });
 
 function startRecording() {
@@ -60,12 +61,38 @@ function toggleRecord() {
     }
 }
 
+function typePreviewText() {
+    var subtitle = document.getElementById('subtitle');
+    subtitle.value = "";
+    document.getElementById('eltitbus').value = "";
+    var preview = "And I sound like this...";
+    // slowly type out the preview text
+    var i = 0;
+    var interval = setInterval(function () {
+        subtitle.value += preview.charAt(i);
+        i++;
+        if (i > preview.length) {
+            subtitle.focus();
+            clearInterval(interval);
+        }
+        reverse();
+    }, 200);
+
+}
+
+function reverse() {
+    var eltitbus = document.getElementById('eltitbus');
+    var subtitle = document.getElementById('subtitle');
+    eltitbus.value = subtitle.value.split('').reverse().join('');
+}
 
 function startTurning() {
     angle = 0;
+    angle = (angle + 30) % 360;
+    startButton.style.transform = 'rotate(' + angle + 'deg)';
     startTime = new Date().getTime();
     interval = setInterval(function () {
-        angle = (angle + 10) % 360;
+        angle = (angle + 30) % 360;
         startButton.style.transform = 'rotate(' + angle + 'deg)';
     }, 1000);
 }
