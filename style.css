@@ -65,9 +65,29 @@ body {
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.0);
 }
 
-.ring:hover {
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.9);
+
+#download {
+    background-color: gold;
+    border: solid 5px black;
+    border-radius: 3vh;
+    color: black;
+    display: block;
+    height: 2vh;
+    margin: auto;
+    margin-top: -5vh;
+    padding: 10px;
+    position: relative;
+    rotate: 90deg;
+    text-decoration: none;
+    transition: margin 0.5s ease-in;
+    width: 2vh;
+    position: relative;
+    z-index: -1;
 }
+
+/* .ring:hover {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.9);
+} */
 
 /* smartphone rules */
 @media (max-width: 1200px) {

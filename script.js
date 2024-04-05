@@ -43,7 +43,32 @@ function setupMediaRecorder() {
                     Array.prototype.reverse.call(buffer.getChannelData(0));
                     source.buffer = buffer;
                     source.connect(context.destination);
+                    var dest = context.createMediaStreamDestination();
+                    source.connect(dest);
+
                     source.start();
+                    var recorder = new MediaRecorder(dest.stream);
+                    recorder.start();
+                    var chunks = [];
+                    recorder.ondataavailable = function (e) {
+                        chunks.push(e.data);
+                    };
+                    recorder.onstop = function (e) {
+                        var blob = new Blob(chunks, {
+                            type: 'audio/wav'
+                        });
+                        var url = URL.createObjectURL(blob);
+                        var downloadButton = document.getElementById('download');
+                        downloadButton.style.marginTop = '1vh';
+                        downloadButton.href = url;
+                        var filename = document.getElementById('subtitle').value.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.wav';
+                        downloadButton.download = filename;
+                    };
+
+                    setTimeout(function () {
+                        console.log('stopping');
+                        recorder.stop();
+                    }, buffer.length / 44100 * 1000);
 
                 });
             });
