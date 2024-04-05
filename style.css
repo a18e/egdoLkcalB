@@ -1,14 +1,25 @@
-.zigzag {
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.drapes {
+    height: 50vh;
+    background-color: red;
+}
+
+.floor {
+    height: 50vh;
+    position: relative;
+    margin-top: -50px;
+    padding-bottom: 50px;
+    z-index: -1;
     background:
         linear-gradient(135deg, black 25%, transparent 25%) -50px 0,
         linear-gradient(-135deg, black 25%, transparent 25%) -50px 0,
         linear-gradient(45deg, black 25%, transparent 25%),
         linear-gradient(-45deg, black 25%, transparent 25%);
     background-size: 100px 100px;
-    position: relative;
-    margin-top: -50px;
-    padding-bottom: 50px;
-    z-index: -1;
 }
 
 .center {
@@ -16,5 +27,17 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+}
+
+.ring {
+    background-image: url(img/lwo.png);
+    height: 25vh;
+    width: 25vh;
+    border-radius: 25vh;
+
+    border: 10px solid #1e9a39;
+    background-size: cover;
+    background-color: #1e9a39;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.5);
+    transition: transform 1s linear;
 }
