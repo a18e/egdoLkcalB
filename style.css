@@ -1,0 +1,20 @@
+.zigzag {
+    background:
+        linear-gradient(135deg, black 25%, transparent 25%) -50px 0,
+        linear-gradient(-135deg, black 25%, transparent 25%) -50px 0,
+        linear-gradient(45deg, black 25%, transparent 25%),
+        linear-gradient(-45deg, black 25%, transparent 25%);
+    background-size: 100px 100px;
+    position: relative;
+    margin-top: -50px;
+    padding-bottom: 50px;
+    z-index: -1;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+}
