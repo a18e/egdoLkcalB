@@ -7,6 +7,7 @@
     <title>egdoLkcalB</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <link rel="icon" href="img/lwo.png" type="image/x-icon">
 </head>
 
 <body>
@@ -17,9 +18,13 @@
         <input id="eltitbus" type="text" disabled />
     </div>
     <div class="center">
-        <div id="start" onclick="toggleRecord()" class="ring"></div>
-        <a id="download">-></a>
+        <div id="start" class="ring" onclick="toggleRecord()"></div>
+        <div id="buttons" class="buttons">
+            <a id="download" title="the retrieve" class="button">►</a>
+            <div id="play" title="the commence" class="button" onclick="play()">►</div>
+        </div>
     </div>
+    <audio id="audio"></audio>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 .drapes {
@@ -22,83 +23,97 @@ body {
     background-size: 100px 100px;
 }
 
-.center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .subtitles {
-    color: white;
-    text-align: center;
     position: absolute;
-    width: 100vw;
+    width: 100%;
     top: 10vh;
+    display: flex;
+    justify-content: center;
 }
 
 .subtitles input {
     text-transform: uppercase;
-    font-size: 2em;
+    font-size: 1.5em;
     color: white;
-    text-align: left;
     background: none;
     outline: none;
-    border: none;
-    width: 15em;
+    border: 0px solid white;
+    width: 100%;
+    transition: border 0.5s ease-in;
 }
 
 #subtitle {
     text-align: right;
 }
 
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .ring {
     background-image: url(img/lwo.png);
-    height: 25vh;
-    width: 25vh;
-    border-radius: 25vh;
+    height: 25vw;
+    width: 25vw;
+    max-height: 300px;
+    max-width: 300px;
+    border-radius: 100%;
 
     border: 10px solid #1e9a39;
     background-size: cover;
     background-color: #1e9a39;
     transition: transform 1s linear;
     box-shadow: 0 0px 0px rgba(0, 0, 0, 0.0);
+    box-shadow: 0 0 50px rgba(255, 255, 255, 1);
+    cursor: pointer;
+    z-index: 1;
 }
 
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100px;
+    margin-top: -55px;
+    transition: all 1s ease-in;
+}
+
+.button {
+    box-shadow: 0 0 50px rgba(255, 255, 255, 1);
+    border-radius: 50px;
+    min-height: 50px;
+    min-width: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 #download {
-    background-color: gold;
-    border: solid 5px black;
-    border-radius: 3vh;
-    color: black;
-    display: block;
-    height: 2vh;
-    margin: auto;
-    margin-top: -5vh;
-    padding: 10px;
-    position: relative;
+    background-color: black;
+    color: gold;
     rotate: 90deg;
-    text-decoration: none;
-    transition: margin 0.5s ease-in;
-    width: 2vh;
-    position: relative;
-    z-index: -1;
 }
 
-/* .ring:hover {
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.9);
-} */
+#play {
+    background-color: gold;
+    color: black;
+}
 
 /* smartphone rules */
 @media (max-width: 1200px) {
     .subtitles {
-        width: 100vw;
+        flex-flow: column;
     }
 
     .subtitles input {
         display: block;
         text-align: center !important;
-        width: 100vw;
-        /* margin-bottom: -100%; */
     }
 }

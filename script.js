@@ -1,9 +1,9 @@
-var chunks = [];
 var mediaRecorder;
 var startTime;
 var angle;
 var startButton;
 var interval;
+var reverseBlob;
 
 //onload
 document.addEventListener('DOMContentLoaded', function () {
@@ -12,29 +12,38 @@ document.addEventListener('DOMContentLoaded', function () {
     typePreviewText();
 });
 
+function play() {
+    document.getElementById('audio').play();
+}
+
 function startRecording() {
-    chunks = [];
     mediaRecorder.start();
+    console.log('recording');
 }
 
 function stopRecording() {
     mediaRecorder.stop();
+    console.log('stopped recording');
 }
 
-function setupMediaRecorder() {
+ function setupMediaRecorder() {
     navigator.mediaDevices.getUserMedia({
         audio: true
     }).then(function (stream) {
         mediaRecorder = new MediaRecorder(stream);
+        console.log('media recorder created');
+        var chunks = [];
 
         mediaRecorder.addEventListener('dataavailable', function (event) {
             chunks.push(event.data);
         });
 
         mediaRecorder.addEventListener('stop', function () {
+            console.log('media recorder event stop');
             var blob = new Blob(chunks, {
                 type: 'audio/wav'
             });
+            chunks = [];
 
             blob.arrayBuffer().then(function (buffer) {
                 var context = new AudioContext();
@@ -47,27 +56,30 @@ function setupMediaRecorder() {
                     source.connect(dest);
 
                     source.start();
-                    var recorder = new MediaRecorder(dest.stream);
-                    recorder.start();
-                    var chunks = [];
-                    recorder.ondataavailable = function (e) {
-                        chunks.push(e.data);
+                    var reverseRecorder = new MediaRecorder(dest.stream);
+                    reverseRecorder.start();
+                    var reversechunks = [];
+
+                    reverseRecorder.ondataavailable = function (e) {
+                        reversechunks.push(e.data);
                     };
-                    recorder.onstop = function (e) {
-                        var blob = new Blob(chunks, {
+
+                    reverseRecorder.onstop = function (e) {
+                        reverseBlob = new Blob(reversechunks, {
                             type: 'audio/wav'
                         });
-                        var url = URL.createObjectURL(blob);
+                        var url = URL.createObjectURL(reverseBlob);
                         var downloadButton = document.getElementById('download');
                         downloadButton.style.marginTop = '1vh';
                         downloadButton.href = url;
                         var filename = document.getElementById('subtitle').value.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.wav';
                         downloadButton.download = filename;
+                        document.getElementById('audio').src = url;
                     };
 
                     setTimeout(function () {
-                        console.log('stopping');
-                        recorder.stop();
+                        console.log('stopping reverserecorder');
+                        reverseRecorder.stop();
                     }, buffer.length / 44100 * 1000);
 
                 });
@@ -101,7 +113,7 @@ function typePreviewText() {
             clearInterval(interval);
         }
         reverse();
-    }, 200);
+    }, 50);
 
 }
 
@@ -109,6 +121,11 @@ function reverse() {
     var eltitbus = document.getElementById('eltitbus');
     var subtitle = document.getElementById('subtitle');
     eltitbus.value = subtitle.value.split('').reverse().join('');
+    if (subtitle.value.length === 0) {
+        // subtitle.style.borderRight = '10px solid white';
+    } else {
+        subtitle.style.border = 'none';
+    }
 }
 
 function startTurning() {
@@ -120,6 +137,11 @@ function startTurning() {
         angle = (angle + 30) % 360;
         startButton.style.transform = 'rotate(' + angle + 'deg)';
     }, 1000);
+
+    // expand buttons
+    downloadButtons = document.getElementById('buttons');
+    downloadButtons.style.width = '100px';
+    downloadButtons.style.marginTop = '-55px';
 }
 
 function rotateBack() {
@@ -130,4 +152,9 @@ function rotateBack() {
     startButton.style.transition = 'transform ' + duration + 'ms linear';
     startButton.style.transform = 'rotate(0deg)';
 
+    // collapse buttons
+    downloadButton = document.getElementById('download');
+    downloadButtons = document.getElementById('buttons');
+    downloadButtons.style.width = '100%';
+    downloadButtons.style.marginTop = '0';
 }
